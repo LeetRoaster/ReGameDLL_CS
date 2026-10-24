@@ -1,0 +1,71 @@
+
+name: BSD build
+
+on:
+  push:
+    branches: [freebsd-fixes]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  freebsd:
+    name: FreeBSD 15.1
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          prepare: |
+            pkg install -y bash cmake
+          run: |
+            set -eux
+            freebsd-version
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
+
+  openbsd:
+    name: OpenBSD 7.9
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build
+        uses: vmactions/openbsd-vm@v1
+        with:
+          release: "7.9"
+          prepare: |
+            pkg_add bash cmake
+          run: |
+            set -eux
+            uname -a
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
+
+  dragonflybsd:
+    name: DragonFly BSD
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build
+        uses: vmactions/dragonflybsd-vm@v1
+        with:
+          release: "6.4.2"
+          prepare: |
+            pkg install -y bash cmake
+          run: |
+            set -eux
+            uname -a
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
