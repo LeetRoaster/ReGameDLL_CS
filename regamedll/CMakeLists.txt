@@ -462,10 +462,17 @@ elseif (WIN32)
 		OUTPUT_NAME mp
 		PREFIX "")
 else()
-	set_target_properties(regamedll PROPERTIES
-		OUTPUT_NAME cs
-		PREFIX ""
-		POSITION_INDEPENDENT_CODE OFF)
+    set_target_properties(regamedll PROPERTIES
+        OUTPUT_NAME cs
+        PREFIX "")
+
+    if (CMAKE_SYSTEM_NAME MATCHES "BSD|DragonFly")
+        set_target_properties(regamedll PROPERTIES
+            POSITION_INDEPENDENT_CODE ON)
+    else()
+        set_target_properties(regamedll PROPERTIES
+            POSITION_INDEPENDENT_CODE OFF)
+    endif()
 endif()
 
 install(TARGETS regamedll
