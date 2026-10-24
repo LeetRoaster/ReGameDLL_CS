@@ -45,7 +45,9 @@ jobs:
         shell: freebsd {0}
         run: |
           set -eux
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DXASH_COMPAT=ON
 
       - name: Build
         shell: freebsd {0}
@@ -88,7 +90,9 @@ jobs:
         shell: openbsd {0}
         run: |
           set -eux
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DXASH_COMPAT=ON
 
       - name: Build
         shell: openbsd {0}
@@ -131,7 +135,9 @@ jobs:
         shell: dragonflybsd {0}
         run: |
           set -eux
-          cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DXASH_COMPAT=ON
 
       - name: Build
         shell: dragonflybsd {0}
