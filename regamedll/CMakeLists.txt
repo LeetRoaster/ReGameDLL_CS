@@ -37,8 +37,8 @@ if (NOT XASH_COMPAT)
 endif()
 
 set(COMPILE_FLAGS "-U_FORTIFY_SOURCE")
-if(NOT MSVC)
-	set(LINK_LIBS dl)
+if (NOT MSVC AND (ANDROID OR CMAKE_SYSTEM_NAME STREQUAL "Linux"))
+    set(LINK_LIBS dl)
 endif()
 
 # do not strip debuginfo during link
