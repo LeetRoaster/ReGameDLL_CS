@@ -313,6 +313,72 @@ jobs:
         with:
           name: linux32
           path: publish/*
+  
+  freebsd:
+    name: 'FreeBSD 15.1'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build on FreeBSD
+        uses: vmactions/freebsd-vm@v1
+        with:
+          release: "15.1"
+          prepare: |
+            pkg install -y bash cmake git
+          run: |
+            set -eux
+            freebsd-version
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
+
+  openbsd:
+    name: 'OpenBSD 7.9'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build on OpenBSD
+        uses: vmactions/openbsd-vm@v1
+        with:
+          release: "7.9"
+          prepare: |
+            pkg_add bash cmake git
+          run: |
+            set -eux
+            uname -a
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
+
+  dragonflybsd:
+    name: 'DragonFly BSD 6.4.2'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build on DragonFly BSD
+        uses: vmactions/dragonflybsd-vm@v1
+        with:
+          release: "6.4.2"
+          prepare: |
+            pkg install -y bash cmake git
+          run: |
+            set -eux
+            uname -a
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cmake --build build --parallel 4 --verbose
 
   publish:
     name: 'Publish'
