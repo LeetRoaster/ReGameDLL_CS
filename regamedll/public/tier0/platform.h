@@ -30,7 +30,7 @@
 
 #include "osconfig.h"
 
-#if defined(_WIN32) || defined(__linux__)
+#if !defined(__APPLE__)
 #include <malloc.h> // need this for _alloca
 #endif
 #include <string.h> // need this for memset
